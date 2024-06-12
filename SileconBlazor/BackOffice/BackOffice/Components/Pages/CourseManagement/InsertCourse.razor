@@ -1,0 +1,61 @@
+﻿@page "/InsertCourse"
+@rendermode InteractiveAuto
+
+<h5>InsertCourse</h5>
+<hr/>
+<CourseForm course="course" OnValidSubmit="OnValidSubmit" />
+@code {
+    CourseDto course = new()
+        {
+            CourseLearns = [],
+            CourseDetails = [],
+            TeacherCourses = [],
+            categories = [],
+            Teachers = [],
+            ImageFile = new()
+    };
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var resId = await httpClient.GetAsync($"api/Course/get-UserId/{user.Identity!.Name}");
+            if (resId.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var x = await resId.Content.ReadFromJsonAsync<ApplicationUser>() ?? new();
+                course.ApplicationUserId = x.Id;
+            }
+            else
+            {
+                course.ApplicationUserId = string.Empty;
+            }
+        }
+
+        var res = await httpClient.GetAsync($"api/Course/get-Categories");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            course.categories = await res.Content.ReadFromJsonAsync<List<Category>>() ?? new();
+        }
+
+        var res1 = await httpClient.GetAsync($"api/Course/get-Teachers");
+        if (res1.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            course.Teachers = await res1.Content.ReadFromJsonAsync<List<Teacher>>() ?? new();
+        }
+
+    }
+    private async Task OnValidSubmit()
+    {
+
+        var res = await httpClient.PostAsJsonAsync<CourseDto>($"api/Course/Add-Course",course);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            NavigationManager.NavigateTo("/listcourses");
+        }
+    }
+
+}

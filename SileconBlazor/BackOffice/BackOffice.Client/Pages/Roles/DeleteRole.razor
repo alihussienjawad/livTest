@@ -1,0 +1,76 @@
+﻿@page "/DeleteRole/{id}"
+@rendermode InteractiveServer
+
+
+
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card mt-3 mb-3">
+            <div class="card-header">
+                <h3 class="text-danger">Delete Role</h3>
+            </div>
+            <div class="card-body">
+                @if (isSuccess)
+                {
+                    <div class="alert alert-success" role="alert"> @message</div>
+                }
+
+                <EditForm Model="Role" OnValidSubmit="DeleteRolePost">
+                    <DataAnnotationsValidator />
+                    <InputText hidden @bind-Value="Role.RoleId" />
+                    <div class="form-group row">
+                        <label class="control-label col-md-12">Role Name</label>
+                        <div class="col">
+                            <InputText required class="form-control" @bind-Value="Role.RoleName" />
+                            <ValidationMessage For="@(() =>Role.RoleName)" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-danger mt-4">Delete Role</button>
+                        <a href="listRoles" class="btn btn-warning mt-4">Back</a>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+
+    private bool isSuccess { get; set; } = false;
+    private string message { get; set; } = string.Empty;
+    public RoleDto Role { get; set; } = new();
+
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync($"api/Role/Singal-Role/{Id}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            Role = await res.Content.ReadFromJsonAsync<RoleDto>() ?? new();
+
+        }
+    }
+
+    public async Task DeleteRolePost(EditContext editContext)
+    {
+        var res = await httpClient.DeleteAsync($"api/Role/Delete-Role/{Role.RoleId}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            Role =new();
+            message = "Deleted";
+            NavigationManager.NavigateTo("/listRoles");
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Error";
+        }
+
+    }
+}

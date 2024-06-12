@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@inherits LayoutComponentBase
+@attribute [AllowAnonymous]
+
+<NavMenu/>
+<section class="h-100 " style="background-color:#FFF;position:sticky;top:6rem;">
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-content-center h-100">
+            <div class="col-xl-3 text-center">
+                <SidBar/>
+            </div>
+            <div class="col-xl-9">
+             @Body
+        </div>
+
+    </div>
+</div>
+</section>

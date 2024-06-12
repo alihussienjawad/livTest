@@ -1,0 +1,61 @@
+﻿@page "/AddRole"
+@rendermode InteractiveAuto
+
+ 
+ 
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card mt-3 mb-3">
+            <div class="card-header">
+                <h3>AddRole</h3>
+            </div>
+            <div class="card-body">
+                @if (isSuccess)
+                {
+                    <div class="alert alert-success" role="alert"> @message</div>
+                }
+
+                <EditForm Model="Role" OnValidSubmit="AddRolePost">
+                    <DataAnnotationsValidator />
+                    <div class="form-group row">
+                        <label class="control-label col-md-12">Role Name</label>
+                        <div class="col">
+                            <InputText required class="form-control" @bind-Value="Role.RoleName" />
+                            <ValidationMessage For="@(() =>Role.RoleName)" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success mt-4">Save Role</button>
+                        <a href="listRoles" class="btn btn-warning mt-4">Back</a>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+
+    private bool isSuccess { get; set; } = false;
+    private string message { get; set; } = string.Empty;
+    public RoleDto Role { get; set; } = new();
+
+    public async Task AddRolePost(EditContext editContext)
+    {
+        var res = await httpClient.PostAsJsonAsync("api/Role/Add-Role", editContext.Model);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            Role = new();
+            message = "Added";
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Error";
+        }
+       
+    }
+}

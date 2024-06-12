@@ -1,0 +1,14 @@
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\bin\Debug\net8.0\ClassLibrary.deps.json
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\bin\Debug\net8.0\ClassLibrary.runtimeconfig.json
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\bin\Debug\net8.0\ClassLibrary.dll
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\bin\Debug\net8.0\ClassLibrary.pdb
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.csproj.AssemblyReference.cache
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.AssemblyInfoInputs.cache
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.AssemblyInfo.cs
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.csproj.CoreCompileInputs.cache
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.dll
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\refint\ClassLibrary.dll
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.pdb
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ClassLibrary.genruntimeconfig.cache
+D:\LivSiliconBlazur\SileconBlazor\ClassLibrary\obj\Debug\net8.0\ref\ClassLibrary.dll

@@ -1,0 +1,59 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = BackOffice.Client
+build_property.RootNamespace = BackOffice.Client
+build_property.ProjectDir = D:\LivSiliconBlazur\SileconBlazor\BackOffice\BackOffice.Client\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\LivSiliconBlazur\SileconBlazor\BackOffice\BackOffice.Client
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Account/EditUserRoles.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxFZGl0VXNlclJvbGVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Account/ListUsers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxMaXN0VXNlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/EmailManagement/DeleteEmail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1haWxNYW5hZ2VtZW50XERlbGV0ZUVtYWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/EmailManagement/ListEmails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1haWxNYW5hZ2VtZW50XExpc3RFbWFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Roles/AddRole.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sZXNcQWRkUm9sZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Roles/DeleteRole.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sZXNcRGVsZXRlUm9sZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Roles/EditRole.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sZXNcRWRpdFJvbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/Pages/Roles/ListRoles.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sZXNcTGlzdFJvbGVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/BackOffice/BackOffice.Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

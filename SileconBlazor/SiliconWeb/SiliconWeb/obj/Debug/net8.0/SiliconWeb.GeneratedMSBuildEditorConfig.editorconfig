@@ -1,0 +1,83 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SiliconWeb
+build_property.RootNamespace = SiliconWeb
+build_property.ProjectDir = D:\LivSiliconBlazur\SileconBlazor\SiliconWeb\SiliconWeb\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\LivSiliconBlazur\SileconBlazor\SiliconWeb\SiliconWeb
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Account/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XExvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Account/Logout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XExvZ291dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Account/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFJlZ2lzdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Layout/Footer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRm9vdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Layout/RightNavBar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcUmlnaHROYXZCYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Pages/Courses/Courses.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3Vyc2VzXENvdXJzZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Layout/AuthLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcQXV0aExheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-r68xcmyh2e
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-cp5xlbfh5m
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-zmk7b64ai5
+
+[D:/LivSiliconBlazur/SileconBlazor/SiliconWeb/SiliconWeb/Components/Pages/Courses/DetailsCourse.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3Vyc2VzXERldGFpbHNDb3Vyc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-rybwzekf88

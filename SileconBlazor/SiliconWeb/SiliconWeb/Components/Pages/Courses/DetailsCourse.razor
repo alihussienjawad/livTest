@@ -1,0 +1,311 @@
+﻿@page "/DetailsCourse/{CourseId:int}"
+
+@attribute [Authorize]
+
+ 
+@rendermode InteractiveAuto
+  <div class="details-image-info">
+    <img src="@Model.ImagePath" />
+    <div class="title-content p-0 p-4  ">
+        <div class="row d-flex justify-content-center" style="height:100%;width:87%;margin:0 auto">
+            <div class="col-md-10 col-sm-12">
+
+              
+
+                <div class="row mt-4">
+                    <div class="col-12 p-0 mt-3">
+                        @if (Model.IsBestSeller)
+                        {
+                            <span class="best">Best Seller</span>
+                        }
+
+                        <span class="category">@Model.Category?.CategoryName</span>
+                    </div>
+                    <div class="col-12 p-0 mt-3">
+                        <h1 class="details-course-name">@Model.CourseName</h1>
+                    </div>
+                    <div class="col-12 p-0  m-0 mt-3">
+
+                        <div class="rate">
+                            @if (Model.Rate >= 1)
+                            {
+                                <span class="star star-active">
+                                    ★
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="star">
+                                    ★
+                                </span>
+                            }
+
+                            @if (Model.Rate >= 2)
+                            {
+                                <span class="star star-active">
+                                    ★
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="star">
+                                    ★
+                                </span>
+                            }
+                            @if (Model.Rate >= 3)
+                            {
+                                <span class="star star-active">
+                                    ★
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="star">
+                                    ★
+                                </span>
+                            }
+                            @if (Model.Rate >= 4)
+                            {
+                                <span class="star star-active">
+                                    ★
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="star">
+                                    ★
+                                </span>
+                            }
+                            @if (Model.Rate >= 5)
+                            {
+                                <span class="star star-active">
+                                    ★
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="star">
+                                    ★
+                                </span>
+                            }
+
+                            @if (Model.iDowinload >= 1000)
+                            {
+                                <span>
+                                    (@Model.iDowinload/1000K reviews)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    (@Model.iDowinload reviews)
+                                </span>
+                            }
+                            <span>|</span>
+                        </div>
+
+                        <div class="rate">
+                            <span class="like">
+                                @if (Model.NumberOfLikes >= 1000)
+                                {
+                                    <span>
+                                        <i class="fa-solid fa-thumbs-up"></i> @Model.iDowinload/1000K likes
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        <i class="fa-solid fa-thumbs-up"></i> @Model.iDowinload likes
+                                    </span>
+                                }
+                            </span>
+                        </div>
+
+                        <div class="rate">
+                            <span>|</span>
+                            <i class="fa-regular fa-clock"></i>
+                            <span>
+                                @Model.NumberOfHours hours
+                            </span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-12 d-flex flex-column justify-content-end">
+                <div class="created-by-details">
+
+                    <div class="row">
+                        @foreach (var item2 in Model.Teachers)
+                        {
+                            <div class="col-md-3 col-sm-6 p-0 m-0">
+                                <div class="row p-0 m-0">
+                                    <div class="col-2 p-0 m-0">
+                                        <div class="teacher-details-img">
+                                            <img src="@item2.ImagePath" class="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>Created By</h6>
+                                        <p>@item2.TeacherName</p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="detail-container mb-5 pb-5">
+    <div class="row pt-5">
+        <div class="col-8">
+
+            <div class="row p-0 m-0">
+                <div class="col-12 p-0 m-0">
+                    <h2>Course Description</h2>
+                    <p class="text-muted text-break">
+                        @Model.CoursDec
+                    </p>
+                </div>
+
+                <div class="col-12 p-0 m-0 pt-5">
+                    <h4 class="">What you ll learn</h4>
+                    <ul class="p-0 m-0 text-muted text-break" style="list-style:none">
+                        @foreach (var item in Model.CourseLearns)
+                        {
+                            <li><span class="true-mark-arrow" style="">&#x1F5F8;</span>@item.Name.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 p-0 m-0 d-flex flex-column align-items-center">
+            <div class="course-include">
+                <h4 class="w-75 p-0 m-0 text-left">This course includes:</h4>
+                <div class="mt-3">
+                    <p class="text-muted">
+                        <i class="fa-solid fa-video mr-1"></i> @Model.NumberOfHours hours on-demand video
+                    </p>
+                    <p class="text-muted">
+                        <i class="fa-regular fa-file mr-1"></i> @Model.Aritc  articles
+                    </p>
+                    <p class="text-muted">
+                        <i class="fa-solid fa-download mr-1"></i> @Model.DowinloadResource  downloadable resources
+                    </p>
+
+
+                    @if (Model.Time)
+                    {
+                        <p class="text-muted">
+                            <i class="fa-solid fa-infinity mr-1"></i>
+                            Full lifetime access
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            <i class="fa-solid fa-hourglass-half mr-1"></i>
+                            Half lifetime access
+                        </p>
+                    }
+
+                    @if (Model.Certifacate)
+                    {
+                        <p class="text-muted">
+                            <i class="fa-solid fa-certificate mr-1"></i>
+                            Certificate of completion
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            <i class="fa-solid fa-certificate mr-1"></i>
+                            No Certificate
+                        </p>
+                    }
+                    <div class="price-details mt-5">
+                        @if (Model.PriceAfterDiscount != 0)
+                        {
+
+                            <span class="price">$@Model.PriceAfterDiscount</span>
+                            <span class="discount-price text-muted">$@Model.Price</span>
+
+                        }
+                        else
+                        {
+                            <span class="price">$@Model.Price</span>
+                        }
+                    </div>
+                    <div class="join-us-div mt-4">
+                        <a href="#" class="join-us-btn">Join course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="mb-5">Program Details</h2>
+            <div class="row p-0 m-0 w-100 mt-4">
+                <div class="col-12 p-0 m-0">
+                    <section class="tile-time w-100">
+                        @foreach (var item in Model.CourseDetails)
+                        {
+                            c++;
+                            <div class="tile-time-item w-100">
+                                <div class="tile-number-div">
+                                    <div class="tile-time-number-div">
+                                        <span class="tile-number">@c</span>
+                                    </div>
+                                </div>
+                                <div class="tile-content-div">
+                                    <p class="tile-content text-break">@item.Name</p>
+                                    <p class="tile-description text-muted text-break">
+                                        @item.Description
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </section>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>  
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+    int c = 0;
+
+
+    Course  Model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+              Model = await httpClient.GetFromJsonAsync<Course>($"api/Course/get-CourseDetails/{CourseId}")??new();
+      
+        }
+
+   
+
+    }
+ 
+
+}

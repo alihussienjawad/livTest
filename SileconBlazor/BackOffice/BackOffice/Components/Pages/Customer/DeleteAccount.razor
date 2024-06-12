@@ -1,0 +1,101 @@
+﻿@page "/deleteaccount"
+@layout CustomerLayout
+
+@rendermode InteractiveServer
+
+<div class="row">
+    @if (isSuccess)
+    {
+        <div class="alert alert-success" role="alert"> @message</div>
+    }
+    <div class="col-md-12 mb-3">
+      
+        <EditForm Model="UserInfo" OnValidSubmit="DeleteAccountPost" FormName="profileform">
+            <ValidationSummary />
+
+            <InputText hidden @bind-Value="UserInfo.Id" />
+ 
+         
+            <div class="form-floating mb-3 mt-4">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <label class="form-label password-title"> Password To Delete Account</label>
+                        <InputText type="password" required @bind-Value="UserInfo.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Please enter your   password to delete account." />
+                        <ValidationMessage For="@(() => UserInfo.Password)" />
+                    </div>
+                </div>
+            </div>
+        
+            
+            <hr class="" />
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h6 class="mt-2 mb-4 password-title">Delete Account</h6>
+                
+                    
+                        <p class="text-sm text-muted">
+                            When you delete your account, your public profile will be deactivated immediately. If you change your mind before
+                            the 14 days are up, sign in with your email and password, and we’ll send you a link to reactivate your account
+                        </p>
+                     
+                        <div class="row mt-4">
+                            <div class="col-md-2 col-sm-12">
+                                <button type="submit"  class="btn btn-sm-1 btn-danger-1">Delete</button>
+                            </div>
+
+                        </div>
+                   
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    public UserDto User { get; set; } = new();
+    public DeleteAccountDto UserInfo { get; set; } = new();
+
+    private bool isSuccess { get; set; } = false;
+    private string message { get; set; } = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var res = await httpClient.GetAsync($"api/Customer/get-User/{user.Identity!.Name}");
+            if (res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                User = await res.Content.ReadFromJsonAsync<UserDto>() ?? new();
+                UserInfo.Id = User.Id;
+                UserInfo.Email = User.Email;
+
+            }
+        }
+
+
+    }
+
+    public async Task DeleteAccountPost(EditContext editContext)
+    {
+
+        var res = await httpClient.PutAsJsonAsync("api/Customer/DeleteAccount", editContext.Model, System.Threading.CancellationToken.None);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            NavigationManager.NavigateTo("/logout");
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Account Not Deleted";
+
+        }
+    }
+}

@@ -1,0 +1,223 @@
+﻿@page "/Courses"
+@using ClassLibrary.Models
+@attribute [Authorize]
+
+@rendermode InteractiveServer
+
+ 
+<div class="row  mt-5">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h3>Courses</h3>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <select class="form-select" @onchange="SelectCategory">
+                    <option value="0">All</option>
+                    @foreach(var item in categories)
+                    {
+                        <option value="@item.CategoryId">@item.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6" style="position:relative">
+                <input placeholder="Search Courses" class="form-control" @oninput="@((ui) => { SearchCourse((string) ui.Value.ToString());})" />
+                
+            </div>
+        </div>
+        <hr/>
+        <div class="row main-card">
+
+            @foreach (var item in courses)
+            {
+                CourseBy = "";
+                @foreach (var teacher in item.Teachers)
+                {
+                    CourseBy = $" {CourseBy} {teacher.TeacherName}  &";
+                }
+
+
+
+                <div class="col-lg-2 col-md-3  col-sm-4 course-card">
+
+                    <div class="card-image">
+                        <div class="position-top">
+                            @if (item.IsSaved)
+                            {
+                                <div class="save-course" style="background-color:yellow" >
+                                    <a role="button" @onclick="() => SaveCourse(item.CourseId,1)">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="save-course">
+                                    <a role="button"  @onclick="() => SaveCourse(item.CourseId,1)">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </a>
+                                </div>
+                            }
+                            @if (item.IsBestSeller)
+                            {
+                                <span class="best best-seller">Best Seller</span>
+                            }
+                        </div>
+                        <a @onclick="() => CourseDetail(item.CourseId)">
+                            <img src="@item.ImagePath" />
+                        </a>
+
+                    </div>
+
+                    <div class="course-card-content">
+                        <h4 class="course-name text-break">@item.CourseName</h4>
+                        <p class="course-by">
+                            @CourseBy.TrimEnd('&')
+                        </p>
+
+                        <div class="course-price">
+                            @if (item.PriceAfterDiscount != 0)
+                            {
+                                <spna class="course-price-1">$@item.PriceAfterDiscount</spna>
+                                <spna class="course-price-2">$@item.Price</spna>
+                            }
+                            else
+                            {
+                                <spna class="course-price-3">$@item.Price</spna>
+                            }
+
+                        </div>
+
+                        <div class="course-card-footer">
+                            <hr />
+                            <span class="time">
+                                <i class="fa-regular fa-clock"></i> <span>@item.NumberOfHours hours</span>
+                            </span>
+                            <span class="likes" style="margin-left:20px;">
+                                <a @onclick="() => SaveCourse(item.CourseId,2)" style="text-decoration:none;cursor:pointer; color:var(--bs-body-color)">
+                                    @if (item.IsLiked)
+                                    {
+                                        <i class="fa-solid fa-thumbs-up"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                    }
+
+                                </a>
+                                <span> @item.NumberOfLikesResult%</span>
+
+                            </span>
+
+                            <span class="dowinload" style="margin-left:5px;">
+                                @if (item.iDowinload >= 1000)
+                                {
+                                    <span>(@item.iDowinload/1000K) </span>
+                                }
+                                else
+                                {
+                                    <span>(@item.iDowinload) </span>
+                                }
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+
+
+
+        </div>
+    </div>
+</div>
+@code {
+    public List<Course> courses { get; set; } = [];
+    public List<Course> AllCourses { get; set; } = [];
+    public List<Category> categories { get; set; } = [];
+   
+    SaveCourseDto saveCourseDto = new();
+    Response response = new();
+    int counter = 0;
+    string CourseBy = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        string baseUrl = config["BaseAddress2"] ?? "";
+      
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var resId = await httpClient.GetAsync($"api/Course/get-UserId/{user.Identity!.Name}");
+            if (resId.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var x = await resId.Content.ReadFromJsonAsync<ApplicationUser>() ?? new();
+                saveCourseDto.UserId = x.Id;
+            }
+            else
+            {
+                saveCourseDto.UserId = string.Empty;
+            }
+        }
+
+        var res = await httpClient.GetAsync($"api/Course/get-All/{saveCourseDto.UserId}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            courses = await res.Content.ReadFromJsonAsync<List<Course>>() ?? [];
+            AllCourses = courses;
+            var catRes = await httpClient.GetAsync($"api/Course/get-Categories");
+            if (catRes.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                categories = await catRes.Content.ReadFromJsonAsync<List<Category>>() ?? new();
+            }
+
+        }
+
+
+    }
+
+    public async Task SaveCourse(int CourseId,int Flag)
+    {
+        saveCourseDto.CourseId = CourseId;
+        saveCourseDto.IsSaved = Flag;
+
+        var res = await httpClient.PostAsJsonAsync($"api/Course/SaveCourse", saveCourseDto);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            response = await res.Content.ReadFromJsonAsync<Response>() ?? new();
+            if (Flag == 1)
+            {
+                courses.Where(i=>i.CourseId==CourseId).FirstOrDefault()!.IsSaved = response.IsSuccess;
+            }
+            if (Flag ==2)
+            {
+                courses.Where(i => i.CourseId == CourseId).FirstOrDefault()!.IsLiked = response.IsSuccess;
+            }
+        }
+    }
+
+    public void CourseDetail(int CourseId)
+    {
+        NavigationManager.NavigateTo($"/DetailsCourse/{CourseId}");
+    }
+
+    public void SelectCategory(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int value))
+            if (value > 0)
+                courses = AllCourses.Where(i => i.CategoryId == value).ToList();
+            else
+                courses = AllCourses;
+    }
+    public void SearchCourse(string e)
+    {
+        if(!string.IsNullOrEmpty(e))
+        courses = AllCourses.Where(i => i.CourseName.ToLower().Contains(e.ToLower())).ToList();
+        else
+            courses = AllCourses;
+    }
+
+}

@@ -1,0 +1,86 @@
+﻿
+@page "/listusers"
+@rendermode InteractiveAuto
+
+
+<h5 class="w-100 text-center">Users</h5>
+<div class="row m-2 p-5">
+    <div class="col-12">
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>UserId</th>
+                    <th>User Image</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Address1</th>
+                    <th>Address2</th>
+                    <th>Bio</th>
+                    <th>PostalCode</th>
+                    <th>City</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Users.Count>0)
+                @foreach (var item in Users)
+                {
+                    counter++;
+                    <tr>
+                        <td>@counter</td>
+                        <td>
+                            <img src="@item.PersonImg" style="width:30px;height:30px;border-radius:100%" alt="person Image" />
+                        </td>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.Address1
+                        </td>
+                        <td>
+                            @item.Address2
+                        </td>
+                        <td>
+                            @item.Bio
+                        </td>
+                        <td>
+                            @item.PostalCode
+                        </td>
+                        <td>
+                            @item.City
+                        </td>
+                        <td>
+                            <a href="EditUserRoles/@item.Id" class="btn btn-sm btn-outline-success">Edit Roles</a>
+                            <a href="Delete/@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10"><h5 class="text-danger w-100 text-center">No Data</h5></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+    private int counter = 0;
+
+    public List<UserDto> Users { get; set; } = [];
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync("api/User/All-Users");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            Users =await res.Content.ReadFromJsonAsync<List<UserDto>>()??[];
+
+        }
+    }
+
+    
+}

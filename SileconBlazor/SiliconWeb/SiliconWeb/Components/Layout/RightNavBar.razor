@@ -1,0 +1,59 @@
+﻿@using ClassLibrary.Models.VM
+ @using Microsoft.AspNetCore.Authorization
+
+<ul class="navbar-nav">
+ 
+   
+  
+    <AuthorizeView>
+        <Authorized>
+            <li class="nav-item">
+                <div class="profile">
+                    <a>
+                        <img id="user-img" src="@UserInfo.PersonImg" alt="User-img" width="30" height="30" style="border-radius:100%;" />
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout"><i class="fa-solid fa-sign-in mr-0"></i>LogOut</a>
+            </li>
+        </Authorized>
+        <NotAuthorized>
+            <li class="nav-item">
+                <a class="nav-link " href="login"><i class="fa-solid fa-sign-in mr-0"></i>SignIn</a>
+            </li>
+            <li class="nav-item">
+                <a class="signup-btn " href="Register"><i class="fa-solid fa-user mr-0"></i>SignUp</a>
+            </li>
+        </NotAuthorized>
+    </AuthorizeView>
+      
+    
+
+   
+
+</ul>
+@code{
+    public UserDto UserInfo { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var res = await httpClient.GetAsync($"api/Course/get-User/{user.Identity!.Name}");
+            if (res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                UserInfo = await res.Content.ReadFromJsonAsync<UserDto>() ?? new();
+               
+
+            }
+        }
+
+
+    }
+}

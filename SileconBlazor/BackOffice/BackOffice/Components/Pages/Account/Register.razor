@@ -1,0 +1,101 @@
+﻿@page "/Register"
+
+@using Microsoft.AspNetCore.Authorization
+
+
+@attribute [AllowAnonymous]
+<div class="row d-flex justify-content-center mt-5 ">
+    <div class="col-md-4">
+        <EditForm id="registerForm" Model="Model" method="post" OnValidSubmit="PerformRegister" FormName="register">
+             
+                 
+                <ValidationSummary />
+         
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <h2 >Create Account.</h2>
+                    <p class="text-muted">
+                        Already have an account? 
+                        <a  href="login" >Sign in here.</a>
+                    </p>
+                  
+                    </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                    <p class="para4">First Name</p>
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Model.FirstName" class="form-control" aria-required="true" placeholder="Enter Your First Name" />
+                        <label  for="Input.FirstName" style="font-size:14px">Enter Your First Name</label>
+                        <ValidationMessage For="() => Model!.FirstName" />
+                    </div>
+                        </div>
+                        <div class="col-6">
+                    <p class="para4">Last Name</p>
+                    <div class="form-floating mb-3">
+                       <InputText @bind-Value="Model.LastName" class="form-control" aria-required="true" placeholder="Enter Your Last Name" />
+                        <label  for="Input.LastName" style="font-size:14px">Enter Your Last Name</label>
+                        <ValidationMessage For="() => Model!.LastName" />
+                    </div>
+                        </div>
+                    </div>
+ 
+
+                    <p class="para4">Email address</p>
+                    <div class="form-floating mb-3">
+                    <InputText type="email" @bind-Value="Model.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label  for="Input.Email">Enter your email address </label>
+                        <ValidationMessage For="() => Model!.Email" />
+                    </div>
+
+
+                    <p class="para4">Password</p>
+                    <div class="form-floating mb-3">
+                <InputText type="password"  @bind-Value="Model.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="" />
+                        <label  for="Input.Password"></label>
+                        <ValidationMessage For="() => Model!.Password" />
+                    </div>
+
+                    <p class="para4">Confirm password</p>
+                    <div class="form-floating mb-3">
+                     <InputText type="password" @bind-Value="Model.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="" />
+                        <label  for="Input.ConfirmPassword"></label>
+                      <ValidationMessage For="() => Model!.ConfirmPassword" />
+                    </div>
+
+                    <div class="mb-1">
+                        <input   type="checkbox" id="termsCheckbox" name="termsCheckbox"/>
+                        <label for="termsCheckbox">I agree to the Terms and Conditions</label>
+                        
+                    </div>
+
+
+                      <button id="registerSubmit" type="submit" class="w-100 btn btn-md btn-primary submit-btn  mt-1">
+                        Sign up
+                    </button>
+
+        </EditForm>
+    </div>
+
+</div>
+ 
+@code{
+    [SupplyParameterFromForm]
+    public RegisterUserDto Model { get; set; } = new();
+
+
+
+    public async Task PerformRegister(EditContext editContext)
+    {
+
+
+        var res = await httpClient.PostAsJsonAsync("api/User/Add-User", editContext.Model);
+        if (res.StatusCode==System.Net.HttpStatusCode.OK)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+      
+       
+    }
+}

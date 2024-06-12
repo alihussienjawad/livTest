@@ -1,0 +1,45 @@
+﻿
+<div class="row   d-flex flex-column justify-content-start align-items-start" style="height:80vh; box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;">
+    <div class="col-12 " style="max-height:300px;">
+        <div class="row">
+            <div class="col-12">
+                <img src="@User.PersonImg"  alt="" class="per-img"/>
+                <h5 class="w-100 text-center text-muted">@User.FullName</h5>
+                <h5 class="w-100 text-center text-muted">@User.Email</h5>
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-12 p-5  d-flex flex-column">
+        <NavLink href="customer" class="btn btn-lg mt-2 side-btn">Costomer Details</NavLink>
+        <NavLink href="ChangePassword" class="btn btn-lg mt-2 side-btn">Security</NavLink>
+        <NavLink href="savedcources" class="btn btn-lg mt-2 side-btn">Saved Cources</NavLink>
+        <NavLink href="deleteaccount" class="btn btn-lg mt-2 side-btn">Delete Account</NavLink>
+        <NavLink href="logout" class="btn btn-lg mt-2 side-btn">Logout</NavLink>
+    </div>
+</div>
+
+@code {
+    public UserDto User { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        UserDto userDtos = new();
+        
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        
+
+        if (user is not null)
+        {
+
+            var res = await httpClient.GetAsync($"api/Customer/get-User/{user.Identity!.Name}");
+            if (res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                User = await res.Content.ReadFromJsonAsync<UserDto>() ?? new();
+
+            }
+        }
+
+       
+    }
+}

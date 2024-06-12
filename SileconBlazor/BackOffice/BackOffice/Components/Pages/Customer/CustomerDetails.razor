@@ -1,0 +1,201 @@
+﻿@page "/customer"
+ 
+ 
+ 
+@layout CustomerLayout
+@rendermode InteractiveServer
+
+<h4>CustomerDetails</h4>
+<div class="row">
+    @if (isSuccess)
+    {
+        <div class="alert alert-success" role="alert"> @message</div>
+    }
+    <div class="col-md-10">
+        <p>Basic Info</p>
+        <EditForm   Model="UserInfo1" OnValidSubmit="UpdateInfoPost" FormName="profileform" >
+            <ValidationSummary />
+         
+            <InputText hidden @bind-Value="UserInfo1.Id" />
+            <InputText hidden @bind-Value="UserInfo1.PersonImg" />
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="UserInfo1.FirstName" class="form-control" placeholder="Enter Your First Name" />
+                        <label class="form-lable" >First Name</label>
+                        <ValidationMessage For="@(() => UserInfo1.FirstName)" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="UserInfo1.LastName" class="form-control" placeholder="Enter Your Last Name" />
+                        <label class="form-lable">Last Name</label>
+                        <ValidationMessage For="@(() => UserInfo1.LastName)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText readonly @bind-Value="UserInfo1.Email" class="form-control" placeholder="Enter Your Email" />
+                        <label class="form-lable">Email</label>
+                        <ValidationMessage For="@(() => UserInfo1.Email)" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="UserInfo1.PhoneNumber" class="form-control" placeholder="Enter Your PhoneNumber" />
+                        <label class="form-lable">PhoneNumber</label>
+                        <ValidationMessage For="@(() => UserInfo1.PhoneNumber)" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group mb-3">
+                    <label class="form-lable">Your Image</label>
+                    <InputFile @bind-Value="UserInfo1.Imagefile" OnChange="OnChange" accept="image/png, image/jpeg, image/gif" id="inputFile" class="form-control" placeholder="Enter Your Image" />
+                    <ValidationMessage For="@(() => UserInfo1.PersonImg)" />
+                    <img class="per-img mt-1" src="data:@filesBase64.contentType;base64,@filesBase64.base64data" />
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <InputTextArea @bind-Value="UserInfo1.Bio" class="form-control" placeholder="Enter Your Bio (Optional)" style="height:150px;resize:none" />
+                <label class="form-lable">Bio</label>
+                <ValidationMessage For="@(() => UserInfo1.Bio)" />
+            </div>
+            <a href="/" class="btn btn-sm btn-outline-info">Cancel</a>
+            <button id="update-profile-button" type="submit" class=" btn btn-sm btn-primary">Save Change</button>
+
+        </EditForm>
+        <hr />
+
+    </div>
+
+    <div class="col-md-10">
+        <p>Address</p>
+        <EditForm id="profile-form2" method="post" Model="UserInfo" OnValidSubmit="UpdateInfoAddress">
+            <ValidationSummary />
+            <InputText type="hidden" @bind-Value="UserInfo.Email" />
+            <InputText type="hidden" @bind-Value="UserInfo.Id" />
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="UserInfo.Address1" class="form-control" placeholder="Enter Your Address1" />
+                <label class="form-lable">Address1</label>
+                <ValidationMessage For="@(() => UserInfo.Address1)" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="UserInfo.Address2" class="form-control" placeholder="Enter Your Address2" />
+                <label class="form-lable">Address2</label>
+                <ValidationMessage For="@(() => UserInfo.Address2)" />
+            </div>
+
+
+            <div class="row">
+             
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="UserInfo.City" class="form-control" placeholder="Enter Your City" />
+                        <label class="form-lable">City</label>
+                        <ValidationMessage For="@(() => UserInfo.City)" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="UserInfo.PostalCode" class="form-control" placeholder="Enter Your PostalCode" />
+                        <label class="form-lable">PostalCode</label>
+                        <ValidationMessage For="@(() => UserInfo.PostalCode)" />
+                    </div>
+                </div>
+            </div>
+
+            <a href="/Home/index" class="btn btn-sm btn-outline-info">Cancel</a>
+            <button id="" type="submit" class=" btn btn-sm btn-primary">Save Change</button>
+
+        </EditForm>
+
+
+    </div>
+</div>
+
+@code {
+    ImageFile  filesBase64 = new ();
+    private bool isSuccess { get; set; } = false;
+    private string message { get; set; } = string.Empty;
+
+    public UserDto UserInfo1 { get; set; } = new();
+    public UserDto UserInfo { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var res = await httpClient.GetAsync($"api/Customer/get-User/{user.Identity!.Name}");
+            if (res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                UserInfo = await res.Content.ReadFromJsonAsync<UserDto>() ?? new();
+                UserInfo1 = UserInfo;
+
+            }
+        }
+
+
+    }
+    public async Task UpdateInfoPost(EditContext editContext1)
+    {
+        UserInfo1.Imagefile = filesBase64;
+        
+        var res = await httpClient.PutAsJsonAsync("api/Customer/Update-info", editContext1.Model, System.Threading.CancellationToken.None);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            message = "Updated Basic Info";
+            NavigationManager.NavigateTo("/customer");
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Not Updated Basic Info";
+
+        }
+    }
+
+    public async Task UpdateInfoAddress(EditContext editContext)
+    {
+        var res = await httpClient.PutAsJsonAsync("api/Customer/Update-info-Address", editContext.Model, System.Threading.CancellationToken.None);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            message = "Updated Address Info";
+            NavigationManager.NavigateTo("/customer");
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Not Updated Address Info";
+
+        }
+    }
+
+
+    async Task OnChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;// get the files selected by the users
+     
+            var resizedFile = await file.RequestImageFileAsync(file.ContentType, 640, 480); // resize the image file
+            var buf = new byte[resizedFile.Size]; // allocate a buffer to fill with the file's data
+            using (var stream = resizedFile.OpenReadStream())
+            {
+                await stream.ReadAsync(buf); // copy the stream to the buffer
+            }
+            filesBase64=(new ImageFile { base64data = Convert.ToBase64String(buf), contentType = file.ContentType, fileName = file.Name }); // convert to a base64 string!!
+         
+        
+    }
+}

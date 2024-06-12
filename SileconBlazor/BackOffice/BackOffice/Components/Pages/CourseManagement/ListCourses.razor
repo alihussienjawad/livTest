@@ -1,0 +1,131 @@
+﻿@page "/listcourses"
+@rendermode InteractiveServer
+<h3>ListCourses</h3>
+
+<p>
+    <a href="InsertCourse" class="btn btn-md btn-primary">Add New Course</a>
+</p>
+
+
+<table class="table table-bordered table-striped table-hover  table-responsive">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>How Add Course</th>
+            <th>
+                Category
+            </th>
+            <th>
+                 CourseName
+            </th>
+            <th>
+              Price
+            </th>
+            <th>
+                 PriceAfterDiscount 
+            </th>
+            <th>
+              NumberOfHours 
+            </th>
+            <th>
+                 Rate 
+            </th>
+            <th>
+               NumberOfLikes 
+            </th>
+
+            <th>
+                 CoursDec 
+            </th>
+            <th>
+               Aritc 
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(courses.Count>0)
+        @foreach (var item in courses)
+        {
+            counter++;
+            <tr>
+
+                <td>@counter</td>
+                <td>@item.ApplicationUser!.FullName</td>
+                <td>
+                    @item.Category!.CategoryName 
+                </td>
+                <td>
+                    @item.CourseName
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    @item.PriceAfterDiscount
+                </td>
+                <td>
+                    @item.NumberOfHours
+                </td>
+                <td>
+                    @item.Rate
+                </td>
+                <td>
+                    @item.NumberOfLikes
+                </td>
+
+                <td class="text-break">
+                    @item.CoursDec
+                </td>
+
+                <td class="text-break">
+                    @item.Aritc
+                </td>
+
+
+                <td class="d-flex justify-content-between" style="min-width:10px;">
+                    <a href="EditCourse/@item.CourseId"     class="btn btn-sm btn-outline-info">Edit</a> |
+                    <a href="DetailsCourse/@item.CourseId"  class="btn btn-sm btn-outline-success">Details</a> |
+                    <a href="DeleteCourse/@item.CourseId"   class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="12"><h5 class="text-danger w-100 text-center">No Data</h5></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@code {
+    public List<Course> courses { get; set; } = [];
+    int counter = 0;
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var res = await httpClient.GetAsync($"api/Course/get-All/{user.Identity!.Name}");
+            if (res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                courses = await res.Content.ReadFromJsonAsync<List<Course>>() ?? [];
+                 
+
+            }
+        }
+
+
+    }
+}

@@ -1,0 +1,71 @@
+﻿@page "/DeleteEmail/{Id:int}"
+@rendermode InteractiveServer
+
+
+<h4 class="text-danger">DeleteEmail</h4>
+
+
+@if (!IsSuccess)
+{
+    <h5 class="text-light bg-danger">@message</h5>
+}
+
+<EditForm method="post" Model="contact" OnValidSubmit="DeleteEmailAsync" FormName="delete-form">
+ 
+    <div class="form-group mt-2">
+        <label for="@contact.FullName" class="control-label">FullName</label>
+        <InputText readonly required @bind-Value="contact.FullName" class="form-control" />
+      
+    </div>
+   
+    <div class="form-group mt-2">
+        <label for="@contact.Email" class="control-label">Email</label>
+        <InputText readonly ="email" required @bind-Value="contact.Email" class="form-control" />
+   
+    </div>
+    <div class="form-group mt-2">
+        <label for="@contact.Message" class="control-label">Message</label>
+        <InputTextArea readonly required @bind-Value="contact.Message" class="form-control" style="resize:none" />
+ 
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn mt-4 btn-sm btn-danger">Delete Email</button>
+    </div>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    bool IsSuccess = false;
+    string message = string.Empty;
+
+    public Contact contact { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync($"api/EmailManagement/get-Email/{Id}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            contact = await res.Content.ReadFromJsonAsync<Contact>() ?? new();
+
+        }
+    }
+
+    public async Task DeleteEmailAsync(EditContext editContext)
+    {
+        var res = await httpClient.DeleteAsync($"api/EmailManagement/Delete-Email/{Id}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            
+            IsSuccess = true;
+            NavigationManager.NavigateTo("/ListEmails");
+        }
+        else
+        {
+            IsSuccess = false;
+            message = "Email not Deleted";
+        }
+    }
+}

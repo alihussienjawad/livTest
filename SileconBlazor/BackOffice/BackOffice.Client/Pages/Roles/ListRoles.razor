@@ -1,0 +1,59 @@
+﻿
+@page "/listroles"
+@rendermode InteractiveAuto
+
+
+<h5 class="w-100 text-center">Roles</h5>
+<div class="row m-2 p-5">
+    <div class="col-12">
+        <a href="AddRole" class="btn btn-sm btn-outline-success">Add New Role</a>
+        </div>
+    <div class="col-12">
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>RoleId</th>
+                    <th>RoleName</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Roles)
+                {
+                    counter++;
+                    <tr>
+                        <td>@counter</td>
+                        <td>
+                            @item.RoleId
+                         </td>
+                        <td>
+                            @item.RoleName
+                        </td>
+                 
+                        <td>
+                            <a href="EditRole/@item.RoleId" class="btn btn-sm btn-outline-success">Edit</a>
+                            <a href="DeleteRole/@item.RoleId" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+    private int counter = 0;
+
+    public List<RoleDto> Roles { get; set; } = [];
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync("api/Role/All-Roles");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            Roles = await res.Content.ReadFromJsonAsync<List<RoleDto>>() ?? [];
+
+        }
+    }
+
+
+}

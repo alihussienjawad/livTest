@@ -1,0 +1,58 @@
+﻿@page "/EditCourse/{CourseId:int}"
+@rendermode InteractiveServer
+<h5>EditCourse</h5>
+<hr />
+<CourseForm course="course" OnValidSubmit="OnValidSubmitUpdate" />
+@code {
+    [Parameter] 
+    public int CourseId { get; set; }
+
+
+
+    CourseDto course = new() { ImageFile = new() };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            var resId = await httpClient.GetAsync($"api/Course/get-Course/{CourseId}");
+            if (resId.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                course = await resId.Content.ReadFromJsonAsync<CourseDto>() ?? new();
+               
+            }
+            else
+            {
+                course.ApplicationUserId = string.Empty;
+            }
+        }
+
+        var res = await httpClient.GetAsync($"api/Course/get-Categories");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            course.categories = await res.Content.ReadFromJsonAsync<List<Category>>() ?? new();
+        }
+
+        var res1 = await httpClient.GetAsync($"api/Course/get-Teachers");
+        if (res1.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            course.Teachers = await res1.Content.ReadFromJsonAsync<List<Teacher>>() ?? new();
+        }
+
+    }
+    private async Task OnValidSubmitUpdate()
+    {
+
+        var res = await httpClient.PutAsJsonAsync<CourseDto>($"api/Course/Update-Course", course);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            NavigationManager.NavigateTo("/listcourses");
+        }
+    }
+
+}

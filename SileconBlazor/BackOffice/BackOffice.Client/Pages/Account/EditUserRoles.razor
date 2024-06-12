@@ -1,0 +1,86 @@
+﻿@page "/EditUserRoles/{UserId}"
+@rendermode InteractiveAuto
+
+
+
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card mt-3 mb-3">
+            <div class="card-header">
+                <h3>Edit User Roles</h3>
+            </div>
+            <div class="card-body">
+                @if (isSuccess)
+                {
+                    <div class="alert alert-success" role="alert"> @message</div>
+                }
+                <EditForm method="post" Model="userRoles" OnValidSubmit="EditUserRolesAsync" FormName="editUserRoles">
+                    <DataAnnotationsValidator />
+                   <InputText hidden @bind-Value="userRoles.UserId"/>
+                    <div class="form-group row">
+                        <label class="control-label col-md-12">User</label>
+                        <div class="col">
+                            <InputText readonly class="form-control" @bind-Value="userRoles.UserName" />
+                            <ValidationMessage For="@(() =>userRoles.UserName)" />
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex justify-content-center">
+                        <h5 class="">Roles</h5>
+                        <hr />
+                        @foreach(var item in userRoles.Roles)
+                        {
+                            <div class="col-12">
+                                <label for="@item.RoleName" class="form-lable-box text-muted">
+                                  <InputCheckbox type="checkbox" class="form-check-box" @bind-Value="item.IsSelected" />
+                                    @item.RoleName
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success mt-4">Save User Roles</button>
+                        <a href="listUsers" class="btn btn-warning mt-4">Back</a>
+                    </div>
+               </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+
+    private bool isSuccess { get; set; } = false;
+    private string message { get; set; } = string.Empty;
+    public UserRoles userRoles { get; set; } = new();
+
+    [Parameter]
+    public string UserId { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync($"api/User/GetUserRoles/{UserId}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            userRoles = await res.Content.ReadFromJsonAsync<UserRoles>() ?? new();
+
+        }
+    }
+
+    public async Task EditUserRolesAsync(EditContext editContext)
+    {
+        var res = await httpClient.PutAsJsonAsync("api/User/Update-User-Roles", editContext.Model);
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            isSuccess = true;
+            userRoles = await res.Content.ReadFromJsonAsync<UserRoles>() ?? userRoles;
+            message = "Updated";
+        }
+        else
+        {
+            isSuccess = false;
+            message = "Error";
+        }
+
+    }
+}

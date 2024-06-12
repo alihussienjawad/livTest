@@ -1,0 +1,12 @@
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\bin\Debug\net8.0\SileconBlazor.ServiceDefaults.deps.json
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\bin\Debug\net8.0\SileconBlazor.ServiceDefaults.dll
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\bin\Debug\net8.0\SileconBlazor.ServiceDefaults.pdb
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.csproj.AssemblyReference.cache
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.GeneratedMSBuildEditorConfig.editorconfig
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.AssemblyInfoInputs.cache
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.AssemblyInfo.cs
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.csproj.CoreCompileInputs.cache
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.dll
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\refint\SileconBlazor.ServiceDefaults.dll
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\SileconBlazor.ServiceDefaults.pdb
+D:\LivSiliconBlazur\SileconBlazor\SileconBlazor.ServiceDefaults\obj\Debug\net8.0\ref\SileconBlazor.ServiceDefaults.dll

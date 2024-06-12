@@ -1,0 +1,77 @@
+﻿@page "/ListEmails"
+
+@rendermode InteractiveAuto
+
+
+<h5 class="w-100 text-center">Emails</h5>
+<div class="row m-2 p-5">
+    <div class="col-12">
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Service</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(contacts.Count>0)
+                @foreach (var item in contacts)
+                {
+                    counter++;
+                    <tr>
+                        <td>@counter</td>
+              
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.Service!.Name
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+
+                        <td class="text-break">
+                            @item.Message
+                        </td>
+                     
+                        <td>
+                            <a href="DeleteEmail/@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                        </tr>
+                    }
+                else
+                {
+                    <tr>
+                        <td colspan="6"><h5 class="text-danger w-100 text-center">No Data</h5></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+
+ 
+    public List<Contact> contacts { get; set; } = new();
+
+   
+    private int counter = 0;
+
+ 
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync("api/EmailManagement/All-Emails");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            contacts = await res.Content.ReadFromJsonAsync<List<Contact>>() ?? [];
+
+        }
+    }
+
+
+}

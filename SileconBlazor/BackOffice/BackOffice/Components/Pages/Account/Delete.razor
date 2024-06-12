@@ -1,0 +1,50 @@
+﻿@page "/Delete/{id}"
+@rendermode InteractiveAuto
+
+<h3>Delete</h3>
+<EditForm method="post" Model="User" OnValidSubmit="DeleteUser" FormName="deleteform" style="margin-top:-10px">
+    <InputText hidden @bind-Value="User.Id"/>
+    <hr />
+    <div class="row d-flex justify-content-center">
+        <div class="col-12">
+            <h2 class="text-danger">You Will Delete This User</h2>
+            
+            <p class="para4">Email</p>
+            <h4>@User.Email</h4>
+            <p class="para4">Full Name</p>
+            <h4>@User.FullName</h4>
+
+            <p class="para4">Address</p>
+            <h4>@User.Address1/@User.Address2</h4>
+            <div>
+                <button type="submit" class="w-100 btn btn-lg btn-danger submit-btn">Delete User</button>
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    public UserDto User { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await httpClient.GetAsync($"api/User/Single-User/{Id}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            User = await res.Content.ReadFromJsonAsync<UserDto>() ?? new();
+
+        }
+    }
+
+    public async Task DeleteUser(EditContext editContext)
+    {
+        var res = await httpClient.DeleteAsync($"api/User/Delete-User/{Id}");
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            NavigationManager.NavigateTo("/");
+
+        }
+    }
+}

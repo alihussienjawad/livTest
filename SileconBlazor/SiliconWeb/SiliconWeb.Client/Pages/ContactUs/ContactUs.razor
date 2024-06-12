@@ -1,0 +1,151 @@
+﻿@page "/ContactUs"
+@rendermode InteractiveServer
+ <style>
+     body{
+        background-color: #EFECEC;
+     }
+</style>
+
+<div class="row contact-container w-100 ">
+    <div class="col-12 p-0 m-0">
+        <div class="row contact-us">
+            <div class="col-12 contact-us-details  m-0 ">
+                <div class="row">
+                    <div class="col-12" style="margin-left:2rem;">
+                        <h3 class="contact-up-main-title">Contact Us</h3>
+                    </div>
+                    <div class="col-12 mt-5">
+                        <div class="row">
+                            <div class="col-1 text-right ">
+                                <img class="contact-us-img" src="/Img/2.png" width="50" height="50" loading="lazy"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                <h5 style="font-weight:600;">Email Us</h5>
+                                <p style="font-weight:100;font-family:Arial;font-size:14px;">
+                                    Please feel free to drop us a line. We will
+                                    respond as soon as possible.
+                                </p>
+                                <a href="#" class="contact-link">Leave a message <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-1 text-right">
+                                <img class="contact-us-img" src="~/Img/2.png" width="50" height="50" loading="lazy" />
+                            </div>
+                            <div class="col-3 text-left">
+                                <h5 style="font-weight:600;">Careers</h5>
+                                <p style="font-weight:100;font-family:Arial;font-size:14px;">
+                                    Sit ac ipsum leo lorem magna nunc mattis
+                                    maecenas non vestibulum.
+                                </p>
+                                <a href="#" class="contact-link">Send an application <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 contact-form m-4" style="background-color:white">
+                @if (IsSuccess)
+                {
+                    <h5 class="text-light bg-success">@message</h5>
+                }
+                else
+                {
+                    <h5 class="text-light bg-danger">@message</h5>
+                }
+                <div class="row p-5">
+                    <div class="col-md-12">
+                        <h5 class="contact-us-title mb-3">Get In Contact With Us</h5>
+                        <EditForm method="post" Model="contact" OnValidSubmit="SendContact" FormName="contact-form">
+                            <ValidationSummary/>
+                            <div class="form-group mt-2">
+                                <label for="@contact.FullName" class="control-label">FullName</label>
+                                <InputText required @bind-Value="contact.FullName" class="form-control" />
+                                <ValidationMessage For="@(() =>contact.FullName)" />
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="@contact.ServiceId" class="control-label">Service</label>
+                                <InputSelect   required @bind-Value="contact.ServiceId" class="form-control">
+                                    <option value="0">Select Service</option>
+                                    @foreach (Service service in services)
+                                    {
+                                        <option value="@service.Id">@service.Name</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="@(() =>contact.ServiceId)" />
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="@contact.Email" class="control-label">Email</label>
+                                <InputText type="email" required @bind-Value="contact.Email" class="form-control" />
+                                <ValidationMessage For="@(() =>contact.Email)" />
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="@contact.Message" class="control-label">Message-</label>
+                                <InputTextArea   required @bind-Value="contact.Message" class="form-control"  style="resize:none"/>
+                                <ValidationMessage For="@(() =>contact.Message)" />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn mt-4 btn-send-contact">Send Contact Request</button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+<div class="map-container" 
+    style=" min-width: 96vw;
+    margin-left: -8.8%;
+    left: 0;
+    padding:0
+     ">
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4236.119208064563!2d12.698373285608326!3d56.04785261678233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46523235e3232035%3A0x4d5faaf3550f9d38!2z2YLZhNi52Kkg2YfZhNiz2YbYqNmI2LHZig!5e1!3m2!1sar!2siq!4v1718181677606!5m2!1sar!2siq"
+    width="800" height="600" style="border:0;width:100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+</div>
+@code {
+    public Contact contact { get; set; } = new();
+    public List<Service> services { get; set; } = [];
+
+    bool IsSuccess = false;
+    string message = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+
+
+
+
+        var getServices = await httpClient.GetAsync($"api/Contact/GetServices");
+        if (getServices.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            services = await getServices.Content.ReadFromJsonAsync<List<Service>>() ?? [];
+
+        }
+
+    }
+
+
+    public async Task SendContact(EditContext editContext)
+    {
+        var sendEmail = await httpClient.PostAsJsonAsync($"api/Contact/SendContact",editContext.Model);
+        if (sendEmail.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            contact = new();
+            IsSuccess = true;
+            message = "Email Send Successful";
+
+
+        }
+        else
+        {
+            IsSuccess = false;
+            message = "Not Send";
+        }
+    }
+ 
+}

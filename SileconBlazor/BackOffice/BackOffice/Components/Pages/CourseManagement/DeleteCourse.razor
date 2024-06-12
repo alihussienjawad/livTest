@@ -1,0 +1,60 @@
+﻿@page "/DeleteCourse/{CourseId:int}"
+
+<h3>DeleteCourse</h3>
+<EditForm method="post" Model="course" OnValidSubmit="DeleteCourseAsync" FormName="delete-course">
+ 
+    <div class="form-group">
+        <label for="@course.CourseName">Course Name</label>
+        <InputText readonly class="form-control" @bind-Value="@course.CourseName" />
+        <ValidationMessage For="@(() =>course.CourseName)" />
+    </div>
+    <div class="form-group">
+        <label for="@course.Price">Course Price</label>
+        <InputNumber readonly class="form-control" @bind-Value="@course.Price" />
+        <ValidationMessage For="@(() =>course.Price)" />
+    </div>
+
+
+    <div class="row m-4 d-flex justify-content-center">
+        <hr />
+        <div class="col-4 d-flex justify-content-between">
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a class="btn btn-secondary" href="listcourses">Cancel</a>
+        </div>
+    </div>
+</EditForm>
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+    int c = 0;
+
+
+    Course course = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+
+
+        if (user is not null)
+        {
+
+            course = await httpClient.GetFromJsonAsync<Course>($"api/Course/get-CourseDetails/{CourseId}") ?? new();
+
+        }
+
+
+
+    }
+    public async Task DeleteCourseAsync(EditContext editContext)
+    {
+        var res = await httpClient.DeleteAsync($"api/Course/DeleteCourse/{CourseId}") ?? new();
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            NavigationManager.NavigateTo("/listcourses");
+        }
+    }
+
+
+}

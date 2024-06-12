@@ -1,0 +1,215 @@
+﻿<EditForm Model="course" OnValidSubmit="OnValidSubmit"  >
+    <DataAnnotationsValidator />
+    <div class="row" style="min-height:90vh">
+  
+        <div class="form-group" hidden>
+            <label for="@course.ApplicationUserId">UserId</label>
+            <InputText @bind-Value="@course.ApplicationUserId" class="form-control" />
+            <ValidationMessage For="@(() =>course.ApplicationUserId)" />
+        </div>
+         <div class="col-lg-4 col-md-6 col-sm-12 shadow-sm" style="min-height:90%;overflow-y:scroll;">
+            <div class="form-group">
+                <label for="@course.CategoryId">Category</label>
+                <InputSelect required class="form-control"   @bind-Value="@course.CategoryId">
+                    <option value="">Select</option>
+                    @foreach(var c in course.categories)
+                    {
+                        <option value="@c.CategoryId">@c.CategoryName</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() =>course.CourseName)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.CourseName">Course Name</label>
+                <InputText class="form-control"   @bind-Value="@course.CourseName" />
+                <ValidationMessage For="@(() =>course.CourseName)" />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-lable">Course Image</label>
+                <InputFile @bind-Value="course.ImageFile" OnChange="OnChange" accept="image/png, image/jpeg, image/gif" id="inputFile" class="form-control" placeholder="Enter Your Image" />
+                <ValidationMessage For="@(() => course.ImageFile)" />
+                <img class="per-img mt-1" src="data:@course.ImageFile.contentType;base64,@course.ImageFile.base64data" />
+                @if (course.CourseImg != null)
+                {
+                    <img src="@course.CourseImg" width="100px" height="100px" style="display:block"/>
+                }
+            </div>
+            <div class="form-group">
+                <label for="@course.Price">Course Price</label>
+                <InputNumber  class="form-control" @bind-Value="@course.Price" />
+                <ValidationMessage For="@(() =>course.Price)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.PriceAfterDiscount">Price After Discount</label>
+                <InputNumber class="form-control"   @bind-Value="@course.PriceAfterDiscount" />
+                <ValidationMessage For="@(() =>course.PriceAfterDiscount)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.NumberOfHours">Number Of Hours</label>
+                <InputNumber class="form-control"   @bind-Value="@course.NumberOfHours" />
+                <ValidationMessage For="@(() =>course.NumberOfHours)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.DowinloadResource">Dowinload Resource</label>
+                <InputNumber class="form-control"   @bind-Value="@course.DowinloadResource" />
+                <ValidationMessage For="@(() =>course.DowinloadResource)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.Rate">Rate</label>
+                <InputNumber class="form-control"  @bind-Value="@course.Rate" />
+                <ValidationMessage For="@(() =>course.Rate)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.Aritc">Aritc</label>
+                <InputNumber class="form-control"   @bind-Value="@course.Aritc" />
+                <ValidationMessage For="@(() =>course.Aritc)" />
+            </div>
+            <div class="form-group">
+                <label for="@course.CoursDec">Course Description</label>
+                <InputTextArea class="form-control"   @bind-Value="@course.CoursDec" style="resize:none" />
+                <ValidationMessage For="@(() =>course.CoursDec)" />
+            </div>
+        </div>
+         <div class="col-lg-4 col-md-6 col-sm-12 shadow-sm">
+            <div class="row h-100 d-flex flex-column">
+                <div class="col-12 m-2" style="height:45%;overflow-y:scroll;">
+                    <div class="form-group ">
+                       
+                        <div class="form-group d-flex justify-content-between  p-1" style="position:sticky;top:0;z-index:2;background-color:aliceblue">
+                            <h5>Course Learen</h5>
+                            <button type="button" class="btn btn-outline-success"
+                                    @onclick="@(() => course.CourseLearns.Add(new CourseLearn()))">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                       
+                        @for (var i = 0; i < course.CourseLearns.Count; i++)
+                        {
+                            var index = i;
+                            var courseLearn = course.CourseLearns[i];
+                            <div class="form-group d-flex mt-1">
+                                <InputText class="form-control m-1" @bind-Value="courseLearn.Name" />
+                                <ValidationMessage For="@(() =>courseLearn.Name)" />
+                                <button type="button" class="btn btn-sm m-1 btn-danger"
+                                        @onclick="@(() => course.CourseLearns.RemoveAt(index))">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        } 
+                    </div>
+                   
+                </div>
+                <hr />
+                <div class="col-12 m-2" style="height:45%;overflow-y:scroll;">
+                    <div class="form-group ">
+
+                        <div class="form-group d-flex justify-content-between  p-1" style="position:sticky;top:0;z-index:2;background-color:aliceblue">
+                            <h5>Teacher Courses</h5>
+                            <button type="button" class="btn btn-outline-success"
+                                    @onclick="@(() => course.TeacherCourses.Add(new TeacherCourse()))">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+ 
+                        @for (var i = 0; i < course.TeacherCourses.Count; i++)
+                        {
+                            var index = i;
+                            var teacherCourse = course.TeacherCourses[i];
+                            <div class="form-group d-flex mt-1">
+                                <InputSelect class="form-control m-1" @bind-Value="teacherCourse.TeacherId">
+                                    <option value="0"> Select</option>
+                                    @foreach(var t in course.Teachers)
+                                    {
+                                        <option value="@t.Id">@t.TeacherName</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="@(() =>teacherCourse.TeacherId)" />
+                                <button type="button" class="btn btn-sm m-1 btn-danger"
+                                        @onclick="@(() => course.TeacherCourses.RemoveAt(index))">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        } 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 shadow-sm">
+            <div class="row h-100 d-flex flex-column">
+                <div class="col-12 m-2 " style="height:45%;overflow-y:scroll;">
+                    <div class="form-group ">
+
+                        <div class="form-group d-flex justify-content-between  p-1" style="position:sticky;top:0;z-index:2;background-color:aliceblue">
+                            <h5>Course Details</h5>
+                            <button type="button" class="btn btn-outline-success"
+                                    @onclick="@(() => course.CourseDetails.Add(new CourseDetails()))">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+
+                       @for (var i = 0; i < course.CourseDetails.Count; i++)
+                        {
+                            var index = i;
+                            var coursed = course.CourseDetails[i];
+                            <div class="form-group d-flex mt-1">
+                                <InputText class="form-control m-1" @bind-Value="coursed.Name" placeholder="Name" />
+                                <ValidationMessage For="@(() =>coursed.Name)" />
+                                <InputTextArea class="form-control m-1" @bind-Value="coursed.Description" placeholder="Description" style="resize:none;" />
+                                <ValidationMessage For="@(() =>coursed.Description)" />
+                                <button type="button" class="btn btn-sm m-1 btn-danger"
+                                        @onclick="@(() => course.CourseDetails.RemoveAt(index))">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        }  
+                    </div>
+                </div>
+             
+            </div>
+        </div>  
+    </div>
+
+
+
+
+
+  <div class="row m-4 d-flex justify-content-center">
+      <hr/>
+      <div class="col-4 d-flex justify-content-between">
+        <button class="btn btn-success" type="submit">Save</button>
+        <button class="btn btn-secondary" type="button" @onclick="Clear">Clear</button>
+    </div>
+    </div>
+
+   
+
+</EditForm>
+
+@code {
+  
+    [Parameter] public CourseDto course { get; set; }
+ 
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private void Clear()
+    {
+        course = new();
+    }
+    async Task OnChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;// get the files selected by the users
+
+        var resizedFile = await file.RequestImageFileAsync(file.ContentType,100,100); // resize the image file
+        var buf = new byte[resizedFile.Size]; // allocate a buffer to fill with the file's data
+        using (var stream = resizedFile.OpenReadStream())
+        {
+            await stream.ReadAsync(buf); // copy the stream to the buffer
+        }
+        course.ImageFile = (new ImageFile { base64data = Convert.ToBase64String(buf), contentType = file.ContentType, fileName = file.Name }); // convert to a base64 string!!
+
+
+    }
+
+
+}

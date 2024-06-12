@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\LivSiliconBlazur\\SileconBlazor\\SiliconWeb\\SiliconWeb.Client\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "D:\\LivSiliconBlazur\\SileconBlazor\\SiliconWeb\\SiliconWeb.Client\\obj\\Debug\\net8.0\\compressed\\7vrieobbti.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "D:\\LivSiliconBlazur\\SileconBlazor\\SiliconWeb\\SiliconWeb.Client\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiliconWeb.Client.bundle.scp.css",
+      "PackagePath": "staticwebassets\\SiliconWeb.Client.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\LivSiliconBlazur\\SileconBlazor\\SiliconWeb\\SiliconWeb.Client\\wwwroot\\appsettings.Development.json",
+      "PackagePath": "staticwebassets\\appsettings.Development.json"
+    },
+    {
+      "Id": "D:\\LivSiliconBlazur\\SileconBlazor\\SiliconWeb\\SiliconWeb.Client\\wwwroot\\appsettings.json",
+      "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SiliconWeb.Client.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.SiliconWeb.Client.props",
+      "PackagePath": "build\\SiliconWeb.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.SiliconWeb.Client.props",
+      "PackagePath": "buildMultiTargeting\\SiliconWeb.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.SiliconWeb.Client.props",
+      "PackagePath": "buildTransitive\\SiliconWeb.Client.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

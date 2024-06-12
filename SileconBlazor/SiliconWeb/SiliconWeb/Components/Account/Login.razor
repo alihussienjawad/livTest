@@ -1,0 +1,85 @@
+﻿
+@page "/Login"
+ 
+@layout AuthLayout
+@attribute [AllowAnonymous]
+@inject NavigationManager _navigation
+@inject UserManager<ApplicationUser> _userManager;
+@inject IUserStore<ApplicationUser> _userStore;
+@inject RoleManager<IdentityRole> _roleManager;
+@inject SignInManager<ApplicationUser> _signInManager;
+
+
+<EditForm method="post" Model="LoginForm" OnValidSubmit="PerformLogin" FormName="login" style="margin-top:-10px">
+    <hr/>
+
+    <div class="row d-flex justify-content-center">
+        @if (!IsSuccess)
+        {
+            <h6 class="text-danger">@message</h6>
+        }
+        <div class="col-12">
+            <h2>Welcome Back.</h2>
+            <p>
+                Don’t have an account yet?
+                <a href="/register">Sign up here.</a>
+            </p>
+            <p class="para4">Email</p>
+            <div class="form-floating mb-2">
+
+                <InputText @bind-Value="LoginForm.Email" class="form-control custom-height " autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label for="Email" class="form-label">Enter your email address</label>
+                
+            </div>
+            <p class="para4">Password</p>
+            <div class="form-floating mb-2">
+                <InputText type="password"  @bind-Value="LoginForm.Password" class="form-control custom-height" autocomplete="current-password" aria-required="true" placeholder="" />
+                <label for="Input.Password" class="form-label"></label>
+                
+            </div>
+            <div class="checkbox mb-3">
+                <label for="RememberMe"   class="form-label">
+                    <InputCheckbox class="form-check-input" for="RememberMe" @bind-Value="LoginForm.RememberMe" />
+                    RememberMe
+                </label>
+            </div>
+
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary submit-btn">Sign in</button>
+            </div>
+
+            <p style="text-align: center;">
+                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+            </p>
+
+        </div>
+
+    </div>
+</EditForm>
+
+@code{
+    [SupplyParameterFromForm]
+    public LoginModel LoginForm{ get; set; } = new();
+
+    bool IsSuccess = true;
+    string message = string.Empty;
+
+    public async Task PerformLogin(EditContext editContext)
+    {
+
+        var res= await _signInManager.PasswordSignInAsync(LoginForm.Email, LoginForm.Password, true, lockoutOnFailure: false);
+        if(res.Succeeded) 
+        {
+            IsSuccess = true;
+            message = string.Empty;
+            _navigation.NavigateTo("/");
+        }
+        else
+        {
+            IsSuccess = false;
+            message = "Cheack Email And Password";
+        }
+    }
+
+  
+}
